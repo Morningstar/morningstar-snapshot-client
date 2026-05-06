@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Morningstar.Snapshot.Client.Services;
 using Morningstar.Snapshot.Client.Services.Snapshot;
-using Morningstar.Snapshot.Client.Services.Subscriptions;
 using Morningstar.Snapshot.Domain;
 using Morningstar.Snapshot.Domain.Constants;
 using Morningstar.Snapshot.Domain.Contracts;

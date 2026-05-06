@@ -3,7 +3,7 @@ using Morningstar.Snapshot.Domain.Models;
 namespace Morningstar.Snapshot.Client.Services.OAuthProvider;
 
 /// <summary>
-/// Interface for providing OAuth credentials to authenticate with the Morningstar Streaming API.
+/// Interface for providing OAuth credentials to authenticate with the Morningstar Snapshot API.
 /// Implementations should securely retrieve credentials from configuration or secret stores.
 /// </summary>
 public interface IOAuthProvider

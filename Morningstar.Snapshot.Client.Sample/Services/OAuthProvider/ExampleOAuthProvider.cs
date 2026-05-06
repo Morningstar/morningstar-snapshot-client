@@ -15,12 +15,12 @@ public class ExampleOAuthProvider : IOAuthProvider
 
         //... implement your custom logic to retrieve credentials ...
 
-        // NB : Avoid hardcoding credentials in production code,
+        // Avoid hardcoding credentials in production code,
         // This is just an example of the end result after retrieving credentials from a secret store.
         return Task.FromResult(new OAuthSecret
         {
-            UserName = "{YOUR_USERNAME}",
-            Password = "{YOUR_PASSWORD}"
+            UserName = "entitlementtest_app_cpq951_ctaab_l1@morningstar.com",
+            Password = "RwqPU_19`0W{"
         });
     }
 }

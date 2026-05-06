@@ -17,9 +17,6 @@ public static class ServiceCollectionExtensions
     /// Registers all Morningstar Snapshot Client services including:
     /// - Snapshot Service (main orchestration service)
     /// - Snapshot API Client
-    /// - Subscription management
-    /// - WebSocket consumers
-    /// - Optional telemetry hooks (register your own ICounterLogger/ILatencyLogger implementations)
     /// </summary>
     /// <param name="services">The service collection to add services to</param>
     /// <returns>The service collection for chaining</returns>

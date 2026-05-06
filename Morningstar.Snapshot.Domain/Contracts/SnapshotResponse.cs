@@ -1,10 +1,8 @@
-
-
 using System.ComponentModel;
 using System.Net;
 using Morningstar.Snapshot.Domain.Models;
 
-namespace Morningstar.Snapshot.Domain;
+namespace Morningstar.Snapshot.Domain.Contracts;
 
 public class SnapshotResponse
 {

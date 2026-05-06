@@ -10,7 +10,7 @@ This sample demonstrates how to use the `Morningstar.Snapshot.Client` and `Morni
 - ✅ Using an `IOAuthProvider` to supply credentials and `ITokenProvider` to obtain bearer tokens
 - ✅ Requesting snapshot data and reading `SnapshotResponse`
 - ✅ Proper logging with Serilog
-- ✅ Error handling and cancellation best practices
+- ✅ Error handling
 
 ## Prerequisites
 
@@ -66,32 +66,55 @@ The Morningstar Snapshot client uses a simple layered architecture to perform on
 #### Workflow
 
 1. Build a snapshot request
-  - Describe the investments/identifiers you need (for example, `PerformanceId`, `Ticker`)
-  - Configure any request options such as fields, locales, or data variants required by your use case
+
+- Specify the `investments` you need each containing:
+  - `idType`: The type of id used to identify the investment (e.g., "PerformanceId").
+  - `ids`: An array of investments to retrieve snapshot data for.
+- Specify the `eventTypes` you wish to retrieve data for (e.g., "Trade", "TopOfBook", "LastPrice").
+  - All values must correspond to valid event types supported by our system.
+
+#### Example
+
+```
+{
+  "investments": {
+    "idType": "PerformanceId",
+    "ids": [
+      "0P0000038R"
+    ]
+  },
+  "eventTypes": [
+    "Trade"
+  ]
+}
+```
 
 2. Configure authentication
-  - Implement `IOAuthProvider` to supply your credentials
-  - `ITokenProvider` is wired internally and called automatically by `SnapshotApiClient` on each request
+
+- Implement `IOAuthProvider` to supply your credentials
+- `ITokenProvider` is wired internally and called automatically by `SnapshotApiClient` on each request
 
 3. Execute the snapshot request
-  - Call `snapshotService.RequestSnapshotAsync(request)` with your `SnapshotRequest`
-  - Authentication is handled internally — `SnapshotApiClient` fetches the bearer token via `ITokenProvider` on each call
-  - Handle exceptions as appropriate
+
+- Call `snapshotService.RequestSnapshotAsync(request)` with your `SnapshotRequest`
+- Authentication is handled internally — `SnapshotApiClient` fetches the bearer token via `ITokenProvider` on each call
+- Handle exceptions as appropriate
 
 4. Inspect and process results
-  - Check `response.StatusCode == HttpStatusCode.OK` for success
-  - Read `response.Data.Realtime` or `response.Data.Delayed` for instrument event data
-  - Check `response.MetaData.Messages` for any warnings (e.g. unrecognised investment IDs)
+
+- Check `response.StatusCode == HttpStatusCode.OK` for success
+- Read `response.Data.Realtime` or `response.Data.Delayed` for instrument event data
+- Check `response.MetaData.Messages` for any warnings (e.g. unrecognised investment IDs)
 
 #### Key Components
 
-| Component | Responsibility |
-|-----------|----------------|
-| `SnapshotService` | High-level API used by your application to request snapshot data |
+| Component           | Responsibility                                                                                                       |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `SnapshotService`   | High-level API used by your application to request snapshot data                                                     |
 | `SnapshotApiClient` | Low-level HTTP client that attaches the bearer token, serializes the request, and returns the raw `SnapshotResponse` |
-| `SnapshotFactory` | Constructs the endpoint URL from `AppConfig` and `EndpointConfig`, then delegates to `SnapshotApiClient` |
-| `ITokenProvider` | Fetches a bearer token from the OAuth endpoint on each request via `IOAuthProvider` credentials |
-| `IOAuthProvider` | Supplies credentials to the token provider (sample `ExampleOAuthProvider`) |
+| `SnapshotFactory`   | Constructs the endpoint URL from `AppConfig` and `EndpointConfig`, then delegates to `SnapshotApiClient`             |
+| `ITokenProvider`    | Fetches a bearer token from the OAuth endpoint on each request via `IOAuthProvider` credentials                      |
+| `IOAuthProvider`    | Supplies credentials to the token provider (sample `ExampleOAuthProvider`)                                           |
 
 #### What the Library Handles for You
 
@@ -107,7 +130,7 @@ The Morningstar Snapshot client uses a simple layered architecture to perform on
 To request snapshot data, update `Program.cs` or call the `SnapshotService` from your own code. Provide:
 
 1. `IOAuthProvider` implementation that returns your credentials
-2. The identifiers you want to snapshot (e.g., PerformanceId, Ticker)
+2. The `identifiers` you want to snapshot (e.g. an array of PerformanceIds)
 
 #### Configuring OAuth Authentication
 
@@ -178,26 +201,24 @@ if (response.StatusCode == HttpStatusCode.OK)
 
 All supported event type constants are defined in `Morningstar.Snapshot.Domain.Constants.EventTypes`:
 
-```csharp
-EventTypes = new List<string>
-{
-    EventTypes.AggregateSummary,
-    EventTypes.Auction,
-    EventTypes.Close,
-    EventTypes.IndexTick,
-    EventTypes.InstrumentPerformanceStatistics,
-    EventTypes.LastPrice,
-    EventTypes.MidPrice,
-    EventTypes.NAVPrice,
-    EventTypes.OHLPrice,
-    EventTypes.SettlementPrice,
-    EventTypes.SpreadStatistics,
-    EventTypes.Status,
-    EventTypes.TopOfBook,
-    EventTypes.Trade,
-    EventTypes.TradeCancellation,
-    EventTypes.TradeCorrection
-}
+```
+///  * "AggregateSummary" - Aggregated trade statistics including cumulative volume, trade count, VWAP, and open interest.
+///  * "Auction" - Indicative auction pricing, imbalance data, and auction metadata.
+///  * "Close" - End-of-day closing price, adjusted and unadjusted previous close.
+///  * "IndexTick" - Index level with calculation and publication timestamps.
+///  * "LastPrice" - Most recent trade price and size that meets eligibility criteria for official last price display.
+///  * "MidPrice" - Midpoint pricing with high, low, close, and timestamp values.
+///  * "NAVPrice" - Net Asset Value with corresponding timestamp.
+///  * "OHLPrice" - Open, High, and Low prices for the current trading session with timestamps.
+///  * "SettlementPrice" - Final, current, and previous settlement prices with calculation and method details.
+///  * "Status" - Instrument trading status, phase, and activity flags.
+///  * "TopOfBook" - Best Bid and Ask prices, sizes, timestamps, and exchange-level details.
+///  * "Trade" - Executed trade details including price, size, execution time, venue, and conditions.
+///     * Subtypes also delivered when subscribing to the "Trade" event type:
+///     * "TradePreMarket" - Trade activity before official market open, including volume and pricing.
+///     * "TradePostMarket" - Trade activity after market close, including volume and pricing.
+///  * "TradeCancellation" - Cancelled trade details.
+///  * "TradeCorrection" - Corrected trade details.
 ```
 
 ## Logging
@@ -226,9 +247,11 @@ If `AppConfig:LogMessages` is true the sample writes returned payloads to `{LogM
 ## Troubleshooting
 
 ### "Configuration section not found"
+
 - Ensure `appsettings.json` is copied to output and section names are correct.
 
 ### "Unable to resolve service"
+
 - Verify registration in `ServiceCollectionExtensions` (e.g., `services.AddSnapshotServices()` or similar) and that `ExampleOAuthProvider` is registered:
 
 ```csharp
@@ -237,6 +260,7 @@ services.AddSnapshotServices();
 ```
 
 ### "Authentication failed"
+
 - Validate your credentials and that the OAuth endpoint configured in `AppConfig:OAuthAddress` is reachable.
 
 ## Next Steps
@@ -254,4 +278,3 @@ services.AddSnapshotServices();
 ## Support
 
 For questions about this example or the Morningstar Snapshot Client libraries, please contact your Morningstar support team.
-

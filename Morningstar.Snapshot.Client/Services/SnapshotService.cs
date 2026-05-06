@@ -1,14 +1,12 @@
 using Microsoft.Extensions.Logging;
 using Morningstar.Snapshot.Client.Services.Snapshot;
-using Morningstar.Snapshot.Client.Services.Subscriptions;
-using Morningstar.Snapshot.Domain;
 using Morningstar.Snapshot.Domain.Contracts;
 using System.Net;
 
 namespace Morningstar.Snapshot.Client.Services;
 
 /// <summary>
-/// Base implementation of the Snapshot service for managing Morningstar Streaming API subscriptions.
+/// Base implementation of the Snapshot service for managing Morningstar Snapshot API requests.
 /// </summary>
 public class SnapshotService : ISnapshotService
 {

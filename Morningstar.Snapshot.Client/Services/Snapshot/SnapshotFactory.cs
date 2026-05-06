@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Options;
 using Morningstar.Snapshot.Client.Clients;
-using Morningstar.Snapshot.Client.Services.Subscriptions;
-using Morningstar.Snapshot.Domain;
 using Morningstar.Snapshot.Domain.Config;
 using Morningstar.Snapshot.Domain.Contracts;
 
@@ -9,7 +7,7 @@ namespace Morningstar.Snapshot.Client.Services.Snapshot;
 
 /// <summary>
 /// Default implementation of snapshot request factory.
-/// Creates snapshot requests using the standard Level 1 streaming endpoint.
+/// Creates snapshot requests using the standard Level 1 snapshot endpoint.
 /// </summary>
 public class SnapshotFactory : ISnapshotRequestFactory
 {
@@ -32,8 +30,8 @@ public class SnapshotFactory : ISnapshotRequestFactory
     }
 
     /// <summary>
-    /// Protected method for requesting a snapshot subscription using the provided API call function. 
-    /// Derived classes can use this to implement alternative subscription mechanisms.
+    /// Protected method for requesting a snapshot using the provided API call function. 
+    /// Derived classes can use this to implement alternative request mechanisms.
     /// </summary>
     protected virtual async Task<SnapshotRequestResult> CreateInternalAsync<TReq>(
         TReq req,

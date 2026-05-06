@@ -1,4 +1,3 @@
-using Morningstar.Snapshot.Client.Services.Subscriptions;
 using Morningstar.Snapshot.Domain.Contracts;
 
 namespace Morningstar.Snapshot.Client.Services.Snapshot;

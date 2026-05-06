@@ -1,4 +1,4 @@
-namespace Morningstar.Snapshot.Domain;
+namespace Morningstar.Snapshot.Domain.Models.Snapshot;
 
 public class InvestmentMessage
 {

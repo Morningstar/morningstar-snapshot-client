@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Morningstar.Snapshot.Client.Helpers;
 using Morningstar.Snapshot.Client.Services.TokenProvider;
-using Morningstar.Snapshot.Domain;
+using Morningstar.Snapshot.Domain.Contracts;
 
 namespace Morningstar.Snapshot.Client.Clients;
 

@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Morningstar.Snapshot.Client.Helpers;
-using Morningstar.Snapshot.Domain;
 using Morningstar.Snapshot.Domain.Constants;
+using Morningstar.Snapshot.Domain.Contracts;
 using Morningstar.Snapshot.Domain.Models;
 using System.Net;
 using System.Text;

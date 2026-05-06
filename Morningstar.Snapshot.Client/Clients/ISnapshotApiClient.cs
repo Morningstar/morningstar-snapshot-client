@@ -1,4 +1,4 @@
-using Morningstar.Snapshot.Domain;
+using Morningstar.Snapshot.Domain.Contracts;
 
 namespace Morningstar.Snapshot.Client.Clients;
 

@@ -20,8 +20,7 @@ namespace Morningstar.Snapshot.Client.Sample;
 /// This example shows:
 /// 1. How to configure the application using appsettings.json
 /// 2. How to register all required services using dependency injection
-/// 3. How to create and manage Level 1 subscriptions
-/// 4. How to monitor active subscriptions
+/// 3. How to create and manage Level 1 snapshot requests 
 /// </summary>
 class Program
 {
@@ -64,7 +63,7 @@ class Program
             });
 
     /// <summary>
-    /// Demonstrates how to use the Canary service to request a snapshot. 
+    /// Demonstrates how to use the snapshot service to request a snapshot. 
     /// </summary>
     static async Task RunExampleAsync(IServiceProvider services)
     {
@@ -74,7 +73,6 @@ class Program
 
         try
         {
-
             // Example: Request a snapshot
             // Note: You'll need to update the login credentials in Services\oAuthProvider\ExampleOAuthProvider.cs to get a valid access token for this to work
             // This is just a demonstration of the Snapshot API functionality            
@@ -85,13 +83,14 @@ class Program
             Console.WriteLine("2. A properly configured appsettings.json with API endpoints");
             Console.WriteLine("3. Investment identifiers to include in the snapshot request");
 
-            // Run the following code to request a snapshot using the Snapshot API client. This will return a snapshot response with the requested data.:
+            // Run the following code to request a snapshot using the Snapshot API client. 
+            // This will return a snapshot response with the requested data.
 
             var secret = await oAuthProvider.GetOAuthSecretAsync(); // Ensure OAuth secret is set up
             if (secret.UserName == "{YOUR_USERNAME}" || secret.Password == "{YOUR_PASSWORD}")
             {
                 Console.WriteLine("Invalid OAuth credentials. Please update the \\OAuthProvider\\ExampleOAuthProvider.cs file with valid credentials.");
-                logger.LogWarning("Please update the \\OAuthProvider\\ExampleOAuthProvider.cs file with valid credentials before running the subscription example.");
+                logger.LogWarning("Please update the \\OAuthProvider\\ExampleOAuthProvider.cs file with valid credentials before running the snapshot example.");
                 return;
             }
 
@@ -114,12 +113,13 @@ class Program
             logger.LogInformation("Requesting snapshot with investments: {Investments} and event types: {EventTypes}",
                 string.Join(", ", snapshotRequest.Investments.Ids),
                 string.Join(", ", snapshotRequest.EventTypes));
+
             var response = await snapshotService.RequestSnapshotAsync(snapshotRequest);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                // logger.LogError("Snapshot request failed with status code {StatusCode} and message: {Message}",
-                //     response.StatusCode, response.Message);
+                logger.LogError("Snapshot request failed with status code {StatusCode} and message: {Message}",
+                    response.StatusCode, response.MetaData.Messages.Count > 0 ? string.Join("; ", response.MetaData.Messages.Select(m => m.Message)) : "No error message provided");
             }
 
             // Print the snapshot response
