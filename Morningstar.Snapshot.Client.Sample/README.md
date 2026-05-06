@@ -214,9 +214,8 @@ All supported event type constants are defined in `Morningstar.Snapshot.Domain.C
 ///  * "Status" - Instrument trading status, phase, and activity flags.
 ///  * "TopOfBook" - Best Bid and Ask prices, sizes, timestamps, and exchange-level details.
 ///  * "Trade" - Executed trade details including price, size, execution time, venue, and conditions.
-///     * Subtypes also delivered when subscribing to the "Trade" event type:
-///     * "TradePreMarket" - Trade activity before official market open, including volume and pricing.
-///     * "TradePostMarket" - Trade activity after market close, including volume and pricing.
+///  * "TradePreMarket" - Trade activity before official market open, including volume and pricing.
+///  * "TradePostMarket" - Trade activity after market close, including volume and pricing.
 ///  * "TradeCancellation" - Cancelled trade details.
 ///  * "TradeCorrection" - Corrected trade details.
 ```
