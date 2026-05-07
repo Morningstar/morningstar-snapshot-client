@@ -27,12 +27,6 @@ public class IMessageConverter : JsonConverter
         { "bidConditionFlag", typeof(TopOfBookMessage) },
         { "bidExchange", typeof(TopOfBookMessage) },
 
-        // MarketByPriceMessage properties
-        { "rankLevel", typeof(MarketByPriceMessage) },
-        { "side", typeof(MarketByPriceMessage) },
-        { "volume", typeof(MarketByPriceMessage) },
-        { "numberOfOrders", typeof(MarketByPriceMessage) },
-
         // TradeMessage properties
         { "tradePrice", typeof(TradeMessage) },
         { "tradePostMarket", typeof(TradeMessage) },
@@ -71,24 +65,9 @@ public class IMessageConverter : JsonConverter
         { "finalSettlementPrice", typeof(SettlementPriceMessage) },
         { "settlementPriceType", typeof(SettlementPriceMessage) },
 
-        // SpreadStatisticsMessage properties
-        { "bidAskSpread", typeof(SpreadStatisticsMessage) },
-        { "dailyAverageSpreadPercentage", typeof(SpreadStatisticsMessage) },
-
         // NAVPriceMessage properties
         { "exchangeNAV", typeof(NAVPriceMessage) },
         { "navDateTime", typeof(NAVPriceMessage) },
-
-        // InstrumentPerformanceStatisticsMessage properties
-        { "netChange", typeof(InstrumentPerformanceStatisticsMessage) },
-        { "percentChange", typeof(InstrumentPerformanceStatisticsMessage) },
-
-        // FinancialsMessage properties
-        { "intradayPriceToBookRatio", typeof(FinancialsMessage) },
-
-        // AdminMessage properties
-        { "notice", typeof(AdminMessage) },
-        { "description", typeof(AdminMessage) },
 
         // TradeCancellationMessage properties
         { "originalTradeID", typeof(TradeCancellationMessage) },
