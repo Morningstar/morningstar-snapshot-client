@@ -20,7 +20,10 @@ public class ApiHelper : IApiHelper
 
         if (model != null)
         {
-            var modelData = JsonConvert.SerializeObject(model);
+            var modelData = JsonConvert.SerializeObject(model, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
             requestMessage.Content = new StringContent(modelData, Encoding.UTF8, "application/json");
         }
         var response = await httpClient.SendAsync(requestMessage);

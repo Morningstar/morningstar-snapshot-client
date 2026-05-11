@@ -124,7 +124,10 @@ class Program
 
             // Print the snapshot response
             Console.WriteLine("\n=== Snapshot Response ===");
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(response, Newtonsoft.Json.Formatting.Indented);
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(response, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
+            {
+                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+            });
             Console.WriteLine(responseJson);
             Console.WriteLine("=========================\n");
 

@@ -104,7 +104,11 @@ public class IMessageConverter : JsonConverter
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value);
+        var json = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        });
+        writer.WriteRawValue(json);
     }
 
     /// <summary>
