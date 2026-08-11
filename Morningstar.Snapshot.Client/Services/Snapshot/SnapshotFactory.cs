@@ -1,0 +1,48 @@
+using Microsoft.Extensions.Options;
+using Morningstar.Snapshot.Client.Clients;
+using Morningstar.Snapshot.Domain.Config;
+using Morningstar.Snapshot.Domain.Contracts;
+
+namespace Morningstar.Snapshot.Client.Services.Snapshot;
+
+/// <summary>
+/// Default implementation of snapshot request factory.
+/// Creates snapshot requests using the standard Level 1 snapshot endpoint.
+/// </summary>
+public class SnapshotFactory : ISnapshotRequestFactory
+{
+    protected readonly ISnapshotApiClient snapshotApiClient;
+    protected readonly AppConfig appConfig;
+    protected readonly EndpointConfig endpointConfig;
+
+    public SnapshotFactory(ISnapshotApiClient snapshotApiClient, IOptions<AppConfig> appConfig, IOptions<EndpointConfig> endpointConfig)
+    {
+        this.snapshotApiClient = snapshotApiClient;
+        this.appConfig = appConfig.Value;
+        this.endpointConfig = endpointConfig.Value;
+    }
+
+    public Task<SnapshotRequestResult> CreateRequestAsync(SnapshotRequest req)
+    {
+        var endpointUrl = $"{appConfig.SnapshotApiBaseAddress}/{endpointConfig.Level1UrlAddress}";
+        return CreateInternalAsync(req, (request) =>
+            snapshotApiClient.RequestSnapshotAsync(request, endpointUrl));
+    }
+
+    /// <summary>
+    /// Protected method for requesting a snapshot using the provided API call function. 
+    /// Derived classes can use this to implement alternative request mechanisms.
+    /// </summary>
+    protected virtual async Task<SnapshotRequestResult> CreateInternalAsync<TReq>(
+        TReq req,
+        Func<TReq, Task<SnapshotResponse>> snapshotApiCallAsync)
+        where TReq : class
+    {
+        var response = await snapshotApiCallAsync(req);
+
+        return new SnapshotRequestResult
+        {
+            ApiResponse = response!
+        };
+    }
+}
