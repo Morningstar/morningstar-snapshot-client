@@ -5,7 +5,7 @@ public record SnapshotRequest
     /// <summary>
     /// A list of Morningstar Performance Ids.
     /// </summary>    
-    public InvestmentsRequest Investments { get; set; } = null!;
+    public List<InvestmentsRequest> Investments { get; set; } = null!;
 
     /// <summary>
     /// A list of event types to subscribe to.

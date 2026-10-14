@@ -96,10 +96,13 @@ class Program
 
             var snapshotRequest = new SnapshotRequest
             {
-                Investments = new InvestmentsRequest
+                Investments = new List<InvestmentsRequest>
                 {
-                    IdType = "PerformanceId",
-                    Ids = new List<string> { "0P0000038R", "0P000003X1", "0P0001HD8R" }
+                    new InvestmentsRequest
+                    {
+                        IdType = "PerformanceId",
+                        Ids = new List<string> { "0P0000038R", "0P000003X1", "0P0001HD8R" }
+                    }
                 },
                 EventTypes = new List<string>
                 {
@@ -111,7 +114,7 @@ class Program
 
 
             logger.LogInformation("Requesting snapshot with investments: {Investments} and event types: {EventTypes}",
-                string.Join(", ", snapshotRequest.Investments.Ids),
+                string.Join(", ", snapshotRequest.Investments.SelectMany(i => i.Ids)),
                 string.Join(", ", snapshotRequest.EventTypes));
 
             var response = await snapshotService.RequestSnapshotAsync(snapshotRequest);
