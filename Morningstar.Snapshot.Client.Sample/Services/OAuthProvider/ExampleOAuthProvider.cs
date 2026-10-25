@@ -11,7 +11,7 @@ public class ExampleOAuthProvider : IOAuthProvider
     /// <returns></returns>
     public Task<OAuthSecret> GetOAuthSecretAsync()
     {
-        // Add Any custom logic to create and return an OAuthSecret        
+        // Add any custom logic to create and return an OAuthSecret        
 
         //... implement your custom logic to retrieve credentials ...
 

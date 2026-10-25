@@ -45,8 +45,8 @@ public class TokenProvider : ITokenProvider
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Unexpected error during calling OAuth.");
-            throw new InvalidOperationException("Unexpected error during calling OAuth.", ex);
+            logger.LogError(ex, "Unexpected error while calling OAuth.");
+            throw new InvalidOperationException("Unexpected error while calling OAuth.", ex);
         }
     }
 }

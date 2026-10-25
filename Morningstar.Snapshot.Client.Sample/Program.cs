@@ -74,7 +74,7 @@ class Program
         try
         {
             // Example: Request a snapshot
-            // Note: You'll need to update the login credentials in Services\oAuthProvider\ExampleOAuthProvider.cs to get a valid access token for this to work
+            // Note: You'll need to update the login credentials in Services\OAuthProvider\ExampleOAuthProvider.cs to get a valid access token for this to work
             // This is just a demonstration of the Snapshot API functionality            
 
             Console.WriteLine("--- Example: Requesting a Snapshot ---");

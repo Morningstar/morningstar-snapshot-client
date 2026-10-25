@@ -102,7 +102,7 @@ public class TokenProviderTests
 
         // Assert
         await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Unexpected error during calling OAuth.");
+            .WithMessage("Unexpected error while calling OAuth.");
         loggerMock.Verify(
             x => x.Log(
                 LogLevel.Error,
@@ -201,7 +201,7 @@ public class TokenProviderTests
         // Assert — NullReferenceException is caught internally and wrapped as InvalidOperationException.
         // LogError fires once for the null token warning, then again inside the catch block.
         await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Unexpected error during calling OAuth.");
+            .WithMessage("Unexpected error while calling OAuth.");
         loggerMock.Verify(
             x => x.Log(
                 LogLevel.Error,

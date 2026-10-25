@@ -12,7 +12,6 @@ public interface ISnapshotService
     /// Requests a snapshot of market data for the specified investments and event types.
     /// </summary>
     /// <param name="request">The snapshot request containing investment identifiers and event types</param>
-    /// <param name="endpointUrl">The API endpoint URL for the snapshot request</param>
     /// <returns>Snapshot response with the requested data</returns>
     Task<SnapshotResponse> RequestSnapshotAsync(SnapshotRequest request);
 }
